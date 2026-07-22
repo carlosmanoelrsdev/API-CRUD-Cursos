@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: CRUDCursos
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/CRUD_CURSOS
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
