@@ -15,14 +15,14 @@ public class CreateCourseUseCase {
     private CourseRepository courseRepository;
 
     public CoursesEntity execute(CoursesEntity coursesEntity){
-        this.courseRepository.findByName(coursesEntity.getName()).ifPresent((user) -> {
+ /*       this.courseRepository.findByName(coursesEntity.getName()).ifPresent((user) -> {
             try {
-                throw new NameNotFoundException("teste");
+                throw new NameNotFoundException();
             } catch (NameNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }) ;
-
+*/
         return this.courseRepository.save(coursesEntity);
     }
 
