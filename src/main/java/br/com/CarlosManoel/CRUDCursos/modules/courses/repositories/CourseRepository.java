@@ -13,4 +13,5 @@ public interface CourseRepository extends JpaRepository<CoursesEntity, UUID> {
     List<CoursesEntity> findByNameContainingIgnoreCase(String name);
 
     List<CoursesEntity> findByCategoryContainingIgnoreCase(String category);
+
 }

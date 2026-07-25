@@ -1,15 +1,18 @@
 package br.com.CarlosManoel.CRUDCursos.modules.courses.controllers;
 
 
+import br.com.CarlosManoel.CRUDCursos.modules.courses.dto.CreateCourseDTO;
+import br.com.CarlosManoel.CRUDCursos.modules.courses.dto.UpdateCourseDTO;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.entities.CoursesEntity;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.service.CourseService;
-import br.com.CarlosManoel.CRUDCursos.modules.courses.usecase.CreateCourseUseCase;
+import br.com.CarlosManoel.CRUDCursos.modules.courses.useCase.CreateCourseUseCase;
+import br.com.CarlosManoel.CRUDCursos.modules.courses.useCase.UpdateCourseUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 import java.util.UUID;
 
 @RestController
@@ -20,24 +23,29 @@ public class CoursesController {
     private CreateCourseUseCase createCourseUseCase;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private UpdateCourseUseCase updateCourseUseCase;
 
 
-    @PostMapping("/")
-    public ResponseEntity<Object> create(@Valid @RequestBody CoursesEntity coursesEntity){
+    @PostMapping("/create")
+    public ResponseEntity<Object> create(@Valid @RequestBody CreateCourseDTO createCourseDTO){
         try {
-            var result = this.createCourseUseCase.execute(coursesEntity);
+            var result = this.createCourseUseCase.execute(createCourseDTO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CoursesEntity> update(@PathVariable UUID id, @RequestBody CoursesEntity coursesEntity) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Object> update(@Valid @PathVariable UUID id, @RequestBody UpdateCourseDTO updateCourseDTO) {
+        try {
+            var result = this.updateCourseUseCase.execute(id, updateCourseDTO);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
-        CoursesEntity updateCourse = courseService.update(id, coursesEntity);
-
-        return ResponseEntity.ok(updateCourse);
     }
 
     @DeleteMapping("/delete/{id}")

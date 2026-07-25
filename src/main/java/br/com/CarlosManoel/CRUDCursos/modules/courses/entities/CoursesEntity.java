@@ -27,7 +27,6 @@ public class CoursesEntity {
     @NotBlank
     private String category;
 
-    @NotBlank
     private String teacher;
 
     private Boolean active = false;

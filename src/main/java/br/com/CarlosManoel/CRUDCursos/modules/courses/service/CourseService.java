@@ -1,5 +1,6 @@
 package br.com.CarlosManoel.CRUDCursos.modules.courses.service;
 
+
 import br.com.CarlosManoel.CRUDCursos.modules.courses.entities.CoursesEntity;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,16 @@ public class CourseService {
 
     }
 
+
+    /**
+     * @deprecated Use updateCourse(UpdateCourseDTO dto) em vez deste método.
+     */
+    @Deprecated
     public CoursesEntity update(UUID id, CoursesEntity coursesEntity) {
+
         CoursesEntity existingCourse = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+
 
         existingCourse.setName(coursesEntity.getName());
         existingCourse.setCategory(coursesEntity.getCategory());
