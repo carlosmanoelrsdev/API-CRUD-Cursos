@@ -52,6 +52,10 @@ public class CourseService {
         return courseRepository.save(existingCourse);
     }
 
+    /**
+     * @deprecated Use DeleteCourseUseCase() em vez deste método.
+     */
+    @Deprecated
     public void delete(UUID id) {
         CoursesEntity course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Curso não encontrado"));

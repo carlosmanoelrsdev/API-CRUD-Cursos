@@ -2,10 +2,12 @@ package br.com.CarlosManoel.CRUDCursos.modules.courses.controllers;
 
 
 import br.com.CarlosManoel.CRUDCursos.modules.courses.dto.CreateCourseDTO;
+import br.com.CarlosManoel.CRUDCursos.modules.courses.dto.ResponseDeleteCourseDTO;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.dto.UpdateCourseDTO;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.entities.CoursesEntity;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.service.CourseService;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.useCase.CreateCourseUseCase;
+import br.com.CarlosManoel.CRUDCursos.modules.courses.useCase.DeleteCourseUseCase;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.useCase.UpdateCourseUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class CoursesController {
     private CourseService courseService;
     @Autowired
     private UpdateCourseUseCase updateCourseUseCase;
+    @Autowired
+    private DeleteCourseUseCase deleteCourseUseCase;
 
 
     @PostMapping("/create")
@@ -49,10 +53,13 @@ public class CoursesController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        courseService.delete(id);
-
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ResponseDeleteCourseDTO> delete(@PathVariable UUID id) {
+        try {
+            var resul = this.deleteCourseUseCase.execute(id);
+            return ResponseEntity.ok(resul);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PatchMapping("/{id}/active")
