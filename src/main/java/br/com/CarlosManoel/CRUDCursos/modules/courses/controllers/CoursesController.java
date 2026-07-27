@@ -2,10 +2,12 @@ package br.com.CarlosManoel.CRUDCursos.modules.courses.controllers;
 
 
 import br.com.CarlosManoel.CRUDCursos.modules.courses.dto.CreateCourseDTO;
+import br.com.CarlosManoel.CRUDCursos.modules.courses.dto.ResponseActiveCourseDTO;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.dto.ResponseDeleteCourseDTO;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.dto.UpdateCourseDTO;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.entities.CoursesEntity;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.service.CourseService;
+import br.com.CarlosManoel.CRUDCursos.modules.courses.useCase.ActiveCourseUseCase;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.useCase.CreateCourseUseCase;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.useCase.DeleteCourseUseCase;
 import br.com.CarlosManoel.CRUDCursos.modules.courses.useCase.UpdateCourseUseCase;
@@ -29,6 +31,8 @@ public class CoursesController {
     private UpdateCourseUseCase updateCourseUseCase;
     @Autowired
     private DeleteCourseUseCase deleteCourseUseCase;
+    @Autowired
+    private ActiveCourseUseCase activeCourseUseCase;
 
 
     @PostMapping("/create")
@@ -53,18 +57,23 @@ public class CoursesController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseDeleteCourseDTO> delete(@PathVariable UUID id) {
+    public ResponseEntity<ResponseDeleteCourseDTO> delete( @PathVariable UUID id) {
         try {
-            var resul = this.deleteCourseUseCase.execute(id);
-            return ResponseEntity.ok(resul);
+            var result = this.deleteCourseUseCase.execute(id);
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PatchMapping("/{id}/active")
-    public ResponseEntity<CoursesEntity> active(@PathVariable UUID id) {
-        return ResponseEntity.ok(courseService.active(id));
+    public ResponseEntity<CoursesEntity> active( @PathVariable UUID id) {
+        try {
+             var result = this.activeCourseUseCase.execute(id);
+             return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

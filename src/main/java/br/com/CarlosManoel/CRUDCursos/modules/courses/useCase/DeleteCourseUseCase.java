@@ -20,7 +20,7 @@ public class DeleteCourseUseCase {
 
         ResponseDeleteCourseDTO response = new ResponseDeleteCourseDTO();
 
-        response.setId((courses.getId()));
+        response.setId(courses.getId());
         response.setName(courses.getName());
         response.setCategory(courses.getCategory());
 

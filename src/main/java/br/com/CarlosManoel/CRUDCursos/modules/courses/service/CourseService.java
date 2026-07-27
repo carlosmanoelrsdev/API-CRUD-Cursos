@@ -63,6 +63,8 @@ public class CourseService {
         courseRepository.delete(course);
     }
 
+
+    @Deprecated
     public CoursesEntity active(UUID id) {
         CoursesEntity course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
